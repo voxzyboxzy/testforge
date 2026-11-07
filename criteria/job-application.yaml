@@ -1,0 +1,128 @@
+version: 1
+app: northline
+cases:
+  - id: en-happy-path
+    title: English applicant submits a complete remote application
+    locale: en
+    steps:
+      - fill: { label: Full name, value: Jordan Lee }
+      - fill: { label: Email, value: jordan.lee@northline.dev }
+      - fill: { label: Phone, value: "+1 415 555 0148" }
+      - select: { label: Role, value: qa }
+      - check: { name: Remote }
+      - select: { label: Timezone, value: America/Mexico_City }
+      - select: { label: Portfolio review, value: tue-10 }
+      - click: { name: Submit application }
+    expect:
+      confirmation: Application received
+      submissions: 1
+
+  - id: es-happy-path
+    title: Spanish applicant with a .es email submits an on-site application
+    locale: es
+    steps:
+      - fill: { label: Nombre completo, value: Sofía Reyes }
+      - fill: { label: Correo electrónico, value: sofia.reyes@correo.es }
+      - fill: { label: Teléfono, value: "+34 600 000 000" }
+      - select: { label: Puesto, value: designer }
+      - check: { name: Presencial }
+      - select: { label: Oficina, value: madrid }
+      - select: { label: Revisión de portafolio, value: wed-14 }
+      - click: { name: Enviar solicitud }
+    expect:
+      confirmation: Solicitud recibida
+      submissions: 1
+
+  - id: en-rejects-invalid-email
+    title: English form rejects an invalid email
+    locale: en
+    steps:
+      - fill: { label: Full name, value: Jordan Lee }
+      - fill: { label: Email, value: not-an-email }
+      - fill: { label: Phone, value: "+1 415 555 0148" }
+      - select: { label: Role, value: qa }
+      - check: { name: Remote }
+      - select: { label: Timezone, value: America/Mexico_City }
+      - select: { label: Portfolio review, value: tue-10 }
+      - click: { name: Submit application }
+    expect:
+      alert: Enter a valid email
+      submissions: 0
+      noConfirmation: true
+
+  - id: es-rejects-invalid-email
+    title: Spanish form rejects an invalid email
+    locale: es
+    steps:
+      - fill: { label: Nombre completo, value: Sofía Reyes }
+      - fill: { label: Correo electrónico, value: not-an-email }
+      - fill: { label: Teléfono, value: "+34 600 000 000" }
+      - select: { label: Puesto, value: qa }
+      - check: { name: Remoto }
+      - select: { label: Zona horaria, value: Europe/Madrid }
+      - select: { label: Revisión de portafolio, value: tue-10 }
+      - click: { name: Enviar solicitud }
+    expect:
+      alert: Introduce un correo válido
+      submissions: 0
+      noConfirmation: true
+
+  - id: en-remote-requires-timezone
+    title: Remote applications require a timezone
+    locale: en
+    steps:
+      - fill: { label: Full name, value: Jordan Lee }
+      - fill: { label: Email, value: jordan.lee@northline.dev }
+      - fill: { label: Phone, value: "+1 415 555 0148" }
+      - select: { label: Role, value: qa }
+      - check: { name: Remote }
+      - select: { label: Portfolio review, value: tue-10 }
+      - click: { name: Submit application }
+    expect:
+      alert: Timezone is required
+      submissions: 0
+      noConfirmation: true
+
+  - id: es-onsite-requires-office
+    title: On-site Spanish applications require an office
+    locale: es
+    steps:
+      - fill: { label: Nombre completo, value: Sofía Reyes }
+      - fill: { label: Correo electrónico, value: sofia.reyes@correo.es }
+      - fill: { label: Teléfono, value: "+34 600 000 000" }
+      - select: { label: Puesto, value: producer }
+      - check: { name: Presencial }
+      - select: { label: Revisión de portafolio, value: thu-16 }
+      - click: { name: Enviar solicitud }
+    expect:
+      alert: La oficina es obligatoria
+      submissions: 0
+      noConfirmation: true
+
+  - id: en-double-submit
+    title: Double-clicking submit records a single application
+    locale: en
+    steps:
+      - fill: { label: Full name, value: Jordan Lee }
+      - fill: { label: Email, value: jordan.lee@northline.dev }
+      - fill: { label: Phone, value: "+1 415 555 0199" }
+      - select: { label: Role, value: producer }
+      - check: { name: Remote }
+      - select: { label: Timezone, value: Pacific/Honolulu }
+      - select: { label: Portfolio review, value: thu-16 }
+      - click: { name: Submit application, count: 2 }
+    expect:
+      confirmation: Application received
+      submissions: 1
+
+  - id: a11y-en
+    title: English application form has no serious accessibility violations
+    locale: en
+    steps:
+      - axe: true
+
+  - id: a11y-es
+    title: Spanish application form has no serious accessibility violations
+    locale: es
+    steps:
+      - axe: true

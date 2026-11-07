@@ -1,0 +1,39 @@
+{
+  "name": "testforge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Offline QA agent that explores a web app, writes Playwright tests, classifies failures, and proposes locator-only repairs.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "demo": "tsx scripts/demo.ts",
+    "benchmark": "tsx scripts/benchmark.ts",
+    "test": "vitest run",
+    "test:e2e": "playwright test -c playwright.config.ts",
+    "test:generated": "playwright test -c playwright.generated.config.ts",
+    "typecheck": "tsc --noEmit",
+    "check:readme": "tsx scripts/check-readme.ts",
+    "dev:app": "vite --config apps/demo-app/vite.config.ts --host 127.0.0.1 --port 4173 --strictPort",
+    "dev:dashboard": "vite --config apps/dashboard/vite.config.ts --host 127.0.0.1 --port 5174 --strictPort",
+    "build": "vite build --config apps/demo-app/vite.config.ts && vite build --config apps/dashboard/vite.config.ts"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^22.19.1",
+    "@types/react": "^18.3.26",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.7.0",
+    "axe-core": "^4.10.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.1",
+    "vitest": "^2.1.9",
+    "yaml": "^2.8.1"
+  }
+}

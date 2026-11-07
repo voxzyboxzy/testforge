@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "types": ["node", "vite/client"],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "apps",
+    "packages",
+    "scripts",
+    "e2e",
+    "playwright.config.ts",
+    "playwright.generated.config.ts",
+    "vitest.config.ts"
+  ],
+  "exclude": ["node_modules", "dist", "generated", "runs", "apps/demo-app/dist", "apps/dashboard/dist"]
+}
