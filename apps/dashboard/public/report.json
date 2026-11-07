@@ -1,0 +1,2254 @@
+{
+  "version": 1,
+  "project": "testforge",
+  "provider": "heuristic",
+  "generatedAt": "2026-11-07T17:54:49.833Z",
+  "commitHint": "working tree",
+  "baseURL": "http://127.0.0.1:4173",
+  "appSourceSha256": "73ec38fd3cf10276baea79c5d716b302ac0522dd80d4196d52739a81f1ca762a",
+  "appSourceUnchanged": true,
+  "exploration": {
+    "controls": 26,
+    "locales": [
+      "en",
+      "es"
+    ],
+    "submitTestId": "submit-application",
+    "confirmationTestId": "confirmation-banner",
+    "submitNames": {
+      "en": "Submit application",
+      "es": "Enviar solicitud"
+    },
+    "axeSerious": {
+      "en": 0,
+      "es": 0
+    }
+  },
+  "pipeline": [
+    {
+      "from": "idle",
+      "to": "exploring",
+      "at": "2026-11-07T17:50:44.209Z"
+    },
+    {
+      "from": "exploring",
+      "to": "generating",
+      "at": "2026-11-07T17:50:45.489Z"
+    },
+    {
+      "from": "generating",
+      "to": "running",
+      "at": "2026-11-07T17:50:45.490Z"
+    },
+    {
+      "from": "running",
+      "to": "inspecting",
+      "at": "2026-11-07T17:54:15.656Z"
+    },
+    {
+      "from": "inspecting",
+      "to": "classifying",
+      "at": "2026-11-07T17:54:15.657Z"
+    },
+    {
+      "from": "classifying",
+      "to": "proposing",
+      "at": "2026-11-07T17:54:15.657Z"
+    },
+    {
+      "from": "proposing",
+      "to": "awaiting-approval",
+      "at": "2026-11-07T17:54:49.832Z"
+    },
+    {
+      "from": "awaiting-approval",
+      "to": "done",
+      "at": "2026-11-07T17:54:49.833Z"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "baseline",
+      "kind": "baseline",
+      "bugs": [],
+      "description": "No seeded bugs. Every generated test should pass.",
+      "tests": [
+        {
+          "id": "en-happy-path",
+          "title": "English applicant submits a complete remote application",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 383
+        },
+        {
+          "id": "es-happy-path",
+          "title": "Spanish applicant with a .es email submits an on-site application",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 378
+        },
+        {
+          "id": "en-rejects-invalid-email",
+          "title": "English form rejects an invalid email",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 345
+        },
+        {
+          "id": "es-rejects-invalid-email",
+          "title": "Spanish form rejects an invalid email",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 347
+        },
+        {
+          "id": "en-remote-requires-timezone",
+          "title": "Remote applications require a timezone",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 355
+        },
+        {
+          "id": "es-onsite-requires-office",
+          "title": "On-site Spanish applications require an office",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 343
+        },
+        {
+          "id": "en-double-submit",
+          "title": "Double-clicking submit records a single application",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 438
+        },
+        {
+          "id": "a11y-en",
+          "title": "English application form has no serious accessibility violations",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 353
+        },
+        {
+          "id": "a11y-es",
+          "title": "Spanish application form has no serious accessibility violations",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 347
+        }
+      ],
+      "repairs": [],
+      "detected": false,
+      "repairAccurate": false,
+      "finalStatus": "passed"
+    },
+    {
+      "id": "es-validation",
+      "kind": "product-bug",
+      "bugs": [
+        "es-validation"
+      ],
+      "description": "Spanish email validation only accepts a bare local@domain.com address, so sofia.reyes@correo.es is rejected.",
+      "tests": [
+        {
+          "id": "en-happy-path",
+          "title": "English applicant submits a complete remote application",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 385
+        },
+        {
+          "id": "es-happy-path",
+          "title": "Spanish applicant with a .es email submits an on-site application",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 2674,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "page.getByTestId('confirmation-banner') was not visible Expected text \"Solicitud recibida\". No status element was visible. Alert text: Introduce un correo válido. Submissions were 0; the criteria expect 1. Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "confirmation",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('confirmation-banner')",
+            "message": "page.getByTestId('confirmation-banner') was not visible",
+            "expectedText": "Solicitud recibida",
+            "expectedSubmissions": 1,
+            "assertionReached": true,
+            "standIns": [],
+            "alerts": [
+              "Introduce un correo válido"
+            ],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<label>Correo electrónico",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Oficina",
+              "<select data-testid=\"field-office\">Selecciona…Ciudad de MéxicoMadrid",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<div data-testid=\"form-errors\">Introduce un correo válido",
+              "<button data-testid=\"submit-application\">Enviar solicitud"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=es-validation",
+              "fill Nombre completo",
+              "fill Correo electrónico",
+              "fill Teléfono",
+              "select Puesto=designer",
+              "check Presencial",
+              "select Oficina=madrid",
+              "select Revisión de portafolio=wed-14",
+              "click page.getByTestId('submit-application') x1",
+              "confirmation assertion"
+            ],
+            "screenshot": "/evidence/es-validation.png"
+          }
+        },
+        {
+          "id": "en-rejects-invalid-email",
+          "title": "English form rejects an invalid email",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 334
+        },
+        {
+          "id": "es-rejects-invalid-email",
+          "title": "Spanish form rejects an invalid email",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 334
+        },
+        {
+          "id": "en-remote-requires-timezone",
+          "title": "Remote applications require a timezone",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 334
+        },
+        {
+          "id": "es-onsite-requires-office",
+          "title": "On-site Spanish applications require an office",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 335
+        },
+        {
+          "id": "en-double-submit",
+          "title": "Double-clicking submit records a single application",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 397
+        },
+        {
+          "id": "a11y-en",
+          "title": "English application form has no serious accessibility violations",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 384
+        },
+        {
+          "id": "a11y-es",
+          "title": "Spanish application form has no serious accessibility violations",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 415
+        }
+      ],
+      "repairs": [],
+      "detected": true,
+      "repairAccurate": false,
+      "finalStatus": "failed"
+    },
+    {
+      "id": "double-submit",
+      "kind": "product-bug",
+      "bugs": [
+        "double-submit"
+      ],
+      "description": "The inbox stops deduplicating the idempotency key, so one double click stores two applications.",
+      "tests": [
+        {
+          "id": "en-happy-path",
+          "title": "English applicant submits a complete remote application",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 392
+        },
+        {
+          "id": "es-happy-path",
+          "title": "Spanish applicant with a .es email submits an on-site application",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 402
+        },
+        {
+          "id": "en-rejects-invalid-email",
+          "title": "English form rejects an invalid email",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 345
+        },
+        {
+          "id": "es-rejects-invalid-email",
+          "title": "Spanish form rejects an invalid email",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 367
+        },
+        {
+          "id": "en-remote-requires-timezone",
+          "title": "Remote applications require a timezone",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 350
+        },
+        {
+          "id": "es-onsite-requires-office",
+          "title": "On-site Spanish applications require an office",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 348
+        },
+        {
+          "id": "en-double-submit",
+          "title": "Double-clicking submit records a single application",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 406,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "Submission count was 2 Visible status was \"Application received · NL-1011\". Submissions were 2; the criteria expect 1. Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "count",
+            "locatorStrategy": "none",
+            "locatorExpr": "submissionCount(page)",
+            "message": "Submission count was 2",
+            "expectedSubmissions": 1,
+            "assertionReached": true,
+            "standIns": [],
+            "alerts": [],
+            "statusText": "Application received · NL-1011",
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<p data-testid=\"confirmation-banner\">Application received · NL-1011",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Submit application"
+            ],
+            "submissionCount": 2,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=double-submit",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=producer",
+              "check Remote",
+              "select Timezone=Pacific/Honolulu",
+              "select Portfolio review=thu-16",
+              "click page.getByTestId('submit-application') x2",
+              "submissions 2"
+            ],
+            "screenshot": "/evidence/double-submit.png"
+          }
+        },
+        {
+          "id": "a11y-en",
+          "title": "English application form has no serious accessibility violations",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 357
+        },
+        {
+          "id": "a11y-es",
+          "title": "Spanish application form has no serious accessibility violations",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 350
+        }
+      ],
+      "repairs": [],
+      "detected": true,
+      "repairAccurate": false,
+      "finalStatus": "failed"
+    },
+    {
+      "id": "conditional-required",
+      "kind": "product-bug",
+      "bugs": [
+        "conditional-required"
+      ],
+      "description": "Remote applications no longer require a timezone.",
+      "tests": [
+        {
+          "id": "en-happy-path",
+          "title": "English applicant submits a complete remote application",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 353
+        },
+        {
+          "id": "es-happy-path",
+          "title": "Spanish applicant with a .es email submits an on-site application",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 352
+        },
+        {
+          "id": "en-rejects-invalid-email",
+          "title": "English form rejects an invalid email",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 342
+        },
+        {
+          "id": "es-rejects-invalid-email",
+          "title": "Spanish form rejects an invalid email",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 354
+        },
+        {
+          "id": "en-remote-requires-timezone",
+          "title": "Remote applications require a timezone",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 2645,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "Expected an alert and none was visible Expected text \"Timezone is required\". Visible status was \"Application received · NL-1016\". Submissions were 1; the criteria expect 0. Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "alert",
+            "locatorStrategy": "role",
+            "locatorExpr": "page.getByRole('alert')",
+            "message": "Expected an alert and none was visible",
+            "expectedText": "Timezone is required",
+            "expectedSubmissions": 0,
+            "assertionReached": true,
+            "standIns": [],
+            "alerts": [],
+            "statusText": "Application received · NL-1016",
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<p data-testid=\"confirmation-banner\">Application received · NL-1016",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Submit application"
+            ],
+            "submissionCount": 1,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=conditional-required",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=qa",
+              "check Remote",
+              "select Portfolio review=tue-10",
+              "click page.getByTestId('submit-application') x1",
+              "alert assertion"
+            ],
+            "screenshot": "/evidence/conditional-required.png"
+          }
+        },
+        {
+          "id": "es-onsite-requires-office",
+          "title": "On-site Spanish applications require an office",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 343
+        },
+        {
+          "id": "en-double-submit",
+          "title": "Double-clicking submit records a single application",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 430
+        },
+        {
+          "id": "a11y-en",
+          "title": "English application form has no serious accessibility violations",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 352
+        },
+        {
+          "id": "a11y-es",
+          "title": "Spanish application form has no serious accessibility violations",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 350
+        }
+      ],
+      "repairs": [],
+      "detected": true,
+      "repairAccurate": false,
+      "finalStatus": "failed"
+    },
+    {
+      "id": "a11y",
+      "kind": "product-bug",
+      "bugs": [
+        "a11y"
+      ],
+      "description": "The logo drops its alt text and the email field drops its label.",
+      "tests": [
+        {
+          "id": "en-happy-path",
+          "title": "English applicant submits a complete remote application",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4050,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "locator.fill: Timeout 4000ms exceeded. Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "other",
+            "locatorStrategy": "label",
+            "locatorExpr": "fill Email",
+            "message": "locator.fill: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Submit application",
+              "<button data-testid=\"unnamed-control\">"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=a11y",
+              "fill Full name",
+              "fill Email",
+              "locator.fill: Timeout 4000ms exceeded."
+            ],
+            "screenshot": "/evidence/a11y.png"
+          }
+        },
+        {
+          "id": "es-happy-path",
+          "title": "Spanish applicant with a .es email submits an on-site application",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 4054,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "locator.fill: Timeout 4000ms exceeded. Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "other",
+            "locatorStrategy": "label",
+            "locatorExpr": "fill Correo electrónico",
+            "message": "locator.fill: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Enviar solicitud",
+              "<button data-testid=\"unnamed-control\">"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=a11y",
+              "fill Nombre completo",
+              "fill Correo electrónico",
+              "locator.fill: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "en-rejects-invalid-email",
+          "title": "English form rejects an invalid email",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4054,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "locator.fill: Timeout 4000ms exceeded. Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "other",
+            "locatorStrategy": "label",
+            "locatorExpr": "fill Email",
+            "message": "locator.fill: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Submit application",
+              "<button data-testid=\"unnamed-control\">"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=a11y",
+              "fill Full name",
+              "fill Email",
+              "locator.fill: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "es-rejects-invalid-email",
+          "title": "Spanish form rejects an invalid email",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 4064,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "locator.fill: Timeout 4000ms exceeded. Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "other",
+            "locatorStrategy": "label",
+            "locatorExpr": "fill Correo electrónico",
+            "message": "locator.fill: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Enviar solicitud",
+              "<button data-testid=\"unnamed-control\">"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=a11y",
+              "fill Nombre completo",
+              "fill Correo electrónico",
+              "locator.fill: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "en-remote-requires-timezone",
+          "title": "Remote applications require a timezone",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4058,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "locator.fill: Timeout 4000ms exceeded. Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "other",
+            "locatorStrategy": "label",
+            "locatorExpr": "fill Email",
+            "message": "locator.fill: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Submit application",
+              "<button data-testid=\"unnamed-control\">"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=a11y",
+              "fill Full name",
+              "fill Email",
+              "locator.fill: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "es-onsite-requires-office",
+          "title": "On-site Spanish applications require an office",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 4054,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "locator.fill: Timeout 4000ms exceeded. Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "other",
+            "locatorStrategy": "label",
+            "locatorExpr": "fill Correo electrónico",
+            "message": "locator.fill: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Enviar solicitud",
+              "<button data-testid=\"unnamed-control\">"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=a11y",
+              "fill Nombre completo",
+              "fill Correo electrónico",
+              "locator.fill: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "en-double-submit",
+          "title": "Double-clicking submit records a single application",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4063,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "locator.fill: Timeout 4000ms exceeded. Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "other",
+            "locatorStrategy": "label",
+            "locatorExpr": "fill Email",
+            "message": "locator.fill: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Submit application",
+              "<button data-testid=\"unnamed-control\">"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=a11y",
+              "fill Full name",
+              "fill Email",
+              "locator.fill: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "a11y-en",
+          "title": "English application form has no serious accessibility violations",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 424,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "axe-core found 2 serious or critical violation(s): button-name, image-alt Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "axe",
+            "locatorStrategy": "none",
+            "locatorExpr": "axe",
+            "message": "axe-core found 2 serious or critical violation(s): button-name, image-alt",
+            "assertionReached": true,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Submit application",
+              "<button data-testid=\"unnamed-control\">"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=a11y",
+              "axe",
+              "axe violations"
+            ]
+          }
+        },
+        {
+          "id": "a11y-es",
+          "title": "Spanish application form has no serious accessibility violations",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 378,
+          "retryStatus": "failed",
+          "classification": "regression",
+          "rationale": "axe-core found 2 serious or critical violation(s): button-name, image-alt Classified as a product regression. Editing the expected outcome, weakening the assertion, or patching the app is refused.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "axe",
+            "locatorStrategy": "none",
+            "locatorExpr": "axe",
+            "message": "axe-core found 2 serious or critical violation(s): button-name, image-alt",
+            "assertionReached": true,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Enviar solicitud",
+              "<button data-testid=\"unnamed-control\">"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=a11y",
+              "axe",
+              "axe violations"
+            ]
+          }
+        }
+      ],
+      "repairs": [],
+      "detected": true,
+      "repairAccurate": false,
+      "finalStatus": "failed"
+    },
+    {
+      "id": "ui-refactor-submit",
+      "kind": "ui-change",
+      "bugs": [
+        "ui-refactor-submit"
+      ],
+      "description": "Held-out UI change: the submit button keeps its accessible name and behavior, but its data-testid becomes send-application.",
+      "tests": [
+        {
+          "id": "en-happy-path",
+          "title": "English applicant submits a complete remote application",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4123,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Submit application"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=ui-refactor-submit",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=qa",
+              "check Remote",
+              "select Timezone=America/Mexico_City",
+              "select Portfolio review=tue-10",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ],
+            "screenshot": "/evidence/ui-refactor-submit.png"
+          }
+        },
+        {
+          "id": "es-happy-path",
+          "title": "Spanish applicant with a .es email submits an on-site application",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 4118,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<label>Correo electrónico",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Oficina",
+              "<select data-testid=\"field-office\">Selecciona…Ciudad de MéxicoMadrid",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Enviar solicitud"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=ui-refactor-submit",
+              "fill Nombre completo",
+              "fill Correo electrónico",
+              "fill Teléfono",
+              "select Puesto=designer",
+              "check Presencial",
+              "select Oficina=madrid",
+              "select Revisión de portafolio=wed-14",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "en-rejects-invalid-email",
+          "title": "English form rejects an invalid email",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4135,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Submit application"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=ui-refactor-submit",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=qa",
+              "check Remote",
+              "select Timezone=America/Mexico_City",
+              "select Portfolio review=tue-10",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "es-rejects-invalid-email",
+          "title": "Spanish form rejects an invalid email",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 4116,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<label>Correo electrónico",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Zona horaria",
+              "<select data-testid=\"field-timezone\">Selecciona…HawáiCiudad de MéxicoMadrid",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Enviar solicitud"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=ui-refactor-submit",
+              "fill Nombre completo",
+              "fill Correo electrónico",
+              "fill Teléfono",
+              "select Puesto=qa",
+              "check Remoto",
+              "select Zona horaria=Europe/Madrid",
+              "select Revisión de portafolio=tue-10",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "en-remote-requires-timezone",
+          "title": "Remote applications require a timezone",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4130,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Submit application"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=ui-refactor-submit",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=qa",
+              "check Remote",
+              "select Portfolio review=tue-10",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "es-onsite-requires-office",
+          "title": "On-site Spanish applications require an office",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 4112,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<label>Correo electrónico",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Oficina",
+              "<select data-testid=\"field-office\">Selecciona…Ciudad de MéxicoMadrid",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Enviar solicitud"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=ui-refactor-submit",
+              "fill Nombre completo",
+              "fill Correo electrónico",
+              "fill Teléfono",
+              "select Puesto=producer",
+              "check Presencial",
+              "select Revisión de portafolio=thu-16",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "en-double-submit",
+          "title": "Double-clicking submit records a single application",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4124,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Submit application"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=ui-refactor-submit",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=producer",
+              "check Remote",
+              "select Timezone=Pacific/Honolulu",
+              "select Portfolio review=thu-16",
+              "click page.getByTestId('submit-application') x2",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "a11y-en",
+          "title": "English application form has no serious accessibility violations",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 368
+        },
+        {
+          "id": "a11y-es",
+          "title": "Spanish application form has no serious accessibility violations",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 382
+        }
+      ],
+      "repairs": [
+        {
+          "pass": 1,
+          "file": "generated/northline.spec.ts",
+          "diff": "--- a/generated/northline.spec.ts\n+++ b/generated/northline.spec.ts\n@@ -38 +38 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -54 +54 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -70 +70 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -87 +87 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -103 +103 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -119 +119 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -136 +136 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -137 +137 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();",
+          "policyOk": true,
+          "policyReasons": [],
+          "rerunPassed": true,
+          "playwrightConfirmed": true
+        }
+      ],
+      "detected": false,
+      "repairAccurate": true,
+      "finalStatus": "passed"
+    },
+    {
+      "id": "ui-refactor-both",
+      "kind": "ui-change",
+      "bugs": [
+        "ui-refactor-both"
+      ],
+      "description": "Held-out UI change: submit and confirmation test ids both change. Visible copy, roles, and behavior stay the same.",
+      "tests": [
+        {
+          "id": "en-happy-path",
+          "title": "English applicant submits a complete remote application",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4118,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Submit application"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=ui-refactor-both",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=qa",
+              "check Remote",
+              "select Timezone=America/Mexico_City",
+              "select Portfolio review=tue-10",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ],
+            "screenshot": "/evidence/ui-refactor-both.png"
+          }
+        },
+        {
+          "id": "es-happy-path",
+          "title": "Spanish applicant with a .es email submits an on-site application",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 4122,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<label>Correo electrónico",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Oficina",
+              "<select data-testid=\"field-office\">Selecciona…Ciudad de MéxicoMadrid",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Enviar solicitud"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=ui-refactor-both",
+              "fill Nombre completo",
+              "fill Correo electrónico",
+              "fill Teléfono",
+              "select Puesto=designer",
+              "check Presencial",
+              "select Oficina=madrid",
+              "select Revisión de portafolio=wed-14",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "en-rejects-invalid-email",
+          "title": "English form rejects an invalid email",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4131,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Submit application"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=ui-refactor-both",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=qa",
+              "check Remote",
+              "select Timezone=America/Mexico_City",
+              "select Portfolio review=tue-10",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "es-rejects-invalid-email",
+          "title": "Spanish form rejects an invalid email",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 4129,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<label>Correo electrónico",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Zona horaria",
+              "<select data-testid=\"field-timezone\">Selecciona…HawáiCiudad de MéxicoMadrid",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Enviar solicitud"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=ui-refactor-both",
+              "fill Nombre completo",
+              "fill Correo electrónico",
+              "fill Teléfono",
+              "select Puesto=qa",
+              "check Remoto",
+              "select Zona horaria=Europe/Madrid",
+              "select Revisión de portafolio=tue-10",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "en-remote-requires-timezone",
+          "title": "Remote applications require a timezone",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4132,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Submit application"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=ui-refactor-both",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=qa",
+              "check Remote",
+              "select Portfolio review=tue-10",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "es-onsite-requires-office",
+          "title": "On-site Spanish applications require an office",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 4118,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<label>Correo electrónico",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Oficina",
+              "<select data-testid=\"field-office\">Selecciona…Ciudad de MéxicoMadrid",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Enviar solicitud"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=ui-refactor-both",
+              "fill Nombre completo",
+              "fill Correo electrónico",
+              "fill Teléfono",
+              "select Puesto=producer",
+              "check Presencial",
+              "select Revisión de portafolio=thu-16",
+              "click page.getByTestId('submit-application') x1",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "en-double-submit",
+          "title": "Double-clicking submit records a single application",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 4115,
+          "retryStatus": "failed",
+          "classification": "locator-drift",
+          "rationale": "page.getByTestId('submit-application') did not resolve (locator.click: Timeout 4000ms exceeded.). The submit button is still exposed with an unchanged accessible name (data-testid=send-application). Proposed locator: page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }). The acceptance assertion had not run. TestForge will only rewrite the locator.",
+          "evidence": {
+            "passedOnRetry": false,
+            "target": "submit",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('submit-application')",
+            "message": "locator.click: Timeout 4000ms exceeded.",
+            "assertionReached": false,
+            "standIns": [
+              {
+                "expr": "page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true })",
+                "reason": "The submit button is still exposed with an unchanged accessible name (data-testid=send-application)."
+              }
+            ],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"send-application\">Submit application"
+            ],
+            "submissionCount": 0,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=ui-refactor-both",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=producer",
+              "check Remote",
+              "select Timezone=Pacific/Honolulu",
+              "select Portfolio review=thu-16",
+              "click page.getByTestId('submit-application') x2",
+              "locator.click: Timeout 4000ms exceeded."
+            ]
+          }
+        },
+        {
+          "id": "a11y-en",
+          "title": "English application form has no serious accessibility violations",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 461
+        },
+        {
+          "id": "a11y-es",
+          "title": "Spanish application form has no serious accessibility violations",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 379
+        }
+      ],
+      "repairs": [
+        {
+          "pass": 1,
+          "file": "generated/northline.spec.ts",
+          "diff": "--- a/generated/northline.spec.ts\n+++ b/generated/northline.spec.ts\n@@ -38 +38 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -54 +54 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -70 +70 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -87 +87 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -103 +103 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -119 +119 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -136 +136 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();\n@@ -137 +137 @@\n-  await page.getByTestId('submit-application').click();\n+  await page.getByRole('button', { name: locale === 'es' ? 'Enviar solicitud' : 'Submit application', exact: true }).click();",
+          "policyOk": true,
+          "policyReasons": [],
+          "rerunPassed": false,
+          "playwrightConfirmed": null
+        },
+        {
+          "pass": 2,
+          "file": "generated/northline.spec.ts",
+          "diff": "--- a/generated/northline.spec.ts\n+++ b/generated/northline.spec.ts\n@@ -39 +39 @@\n-  await expect(page.getByTestId('confirmation-banner')).toContainText('Application received');\n+  await expect(page.getByRole('status')).toContainText('Application received');\n@@ -55 +55 @@\n-  await expect(page.getByTestId('confirmation-banner')).toContainText('Solicitud recibida');\n+  await expect(page.getByRole('status')).toContainText('Solicitud recibida');\n@@ -72 +72 @@\n-  await expect(page.getByTestId('confirmation-banner')).toHaveCount(0);\n+  await expect(page.getByRole('status')).toHaveCount(0);\n@@ -89 +89 @@\n-  await expect(page.getByTestId('confirmation-banner')).toHaveCount(0);\n+  await expect(page.getByRole('status')).toHaveCount(0);\n@@ -105 +105 @@\n-  await expect(page.getByTestId('confirmation-banner')).toHaveCount(0);\n+  await expect(page.getByRole('status')).toHaveCount(0);\n@@ -121 +121 @@\n-  await expect(page.getByTestId('confirmation-banner')).toHaveCount(0);\n+  await expect(page.getByRole('status')).toHaveCount(0);\n@@ -138 +138 @@\n-  await expect(page.getByTestId('confirmation-banner')).toContainText('Application received');\n+  await expect(page.getByRole('status')).toContainText('Application received');",
+          "policyOk": true,
+          "policyReasons": [],
+          "rerunPassed": true,
+          "playwrightConfirmed": true
+        }
+      ],
+      "detected": false,
+      "repairAccurate": true,
+      "finalStatus": "passed"
+    },
+    {
+      "id": "flake",
+      "kind": "flake",
+      "bugs": [
+        "flake"
+      ],
+      "description": "Attempt 1 suppresses the confirmation banner. The automatic retry, attempt 2, renders it.",
+      "tests": [
+        {
+          "id": "en-happy-path",
+          "title": "English applicant submits a complete remote application",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 2631,
+          "retryStatus": "passed",
+          "classification": "flake",
+          "rationale": "The test failed and then passed on the automatic retry without a source change. First error: page.getByTestId('confirmation-banner') was not visible Counted as a flake, not a product regression.",
+          "evidence": {
+            "passedOnRetry": true,
+            "target": "confirmation",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('confirmation-banner')",
+            "message": "page.getByTestId('confirmation-banner') was not visible",
+            "expectedText": "Application received",
+            "expectedSubmissions": 1,
+            "assertionReached": true,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Submit application"
+            ],
+            "submissionCount": 1,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=flake&attempt=1",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=qa",
+              "check Remote",
+              "select Timezone=America/Mexico_City",
+              "select Portfolio review=tue-10",
+              "click page.getByTestId('submit-application') x1",
+              "confirmation assertion"
+            ],
+            "screenshot": "/evidence/flake.png"
+          }
+        },
+        {
+          "id": "es-happy-path",
+          "title": "Spanish applicant with a .es email submits an on-site application",
+          "locale": "es",
+          "status": "failed",
+          "durationMs": 2641,
+          "retryStatus": "passed",
+          "classification": "flake",
+          "rationale": "The test failed and then passed on the automatic retry without a source change. First error: page.getByTestId('confirmation-banner') was not visible Counted as a flake, not a product regression.",
+          "evidence": {
+            "passedOnRetry": true,
+            "target": "confirmation",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('confirmation-banner')",
+            "message": "page.getByTestId('confirmation-banner') was not visible",
+            "expectedText": "Solicitud recibida",
+            "expectedSubmissions": 1,
+            "assertionReached": true,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Nombre completo",
+              "<input data-testid=\"field-name\">",
+              "<label>Correo electrónico",
+              "<input data-testid=\"field-email\">",
+              "<label>Teléfono",
+              "<input data-testid=\"field-phone\">",
+              "<label>Puesto",
+              "<select data-testid=\"field-role\">Selecciona…Ingeniero QADiseñador de productoProductor",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remoto",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>Presencial",
+              "<label>Oficina",
+              "<select data-testid=\"field-office\">Selecciona…Ciudad de MéxicoMadrid",
+              "<label>Revisión de portafolio",
+              "<select data-testid=\"field-slot\">Selecciona…Mar 10:00Mié 14:00Jue 16:00",
+              "<label>Notas",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Enviar solicitud"
+            ],
+            "submissionCount": 1,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=es&bugs=flake&attempt=1",
+              "fill Nombre completo",
+              "fill Correo electrónico",
+              "fill Teléfono",
+              "select Puesto=designer",
+              "check Presencial",
+              "select Oficina=madrid",
+              "select Revisión de portafolio=wed-14",
+              "click page.getByTestId('submit-application') x1",
+              "confirmation assertion"
+            ]
+          }
+        },
+        {
+          "id": "en-rejects-invalid-email",
+          "title": "English form rejects an invalid email",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 359
+        },
+        {
+          "id": "es-rejects-invalid-email",
+          "title": "Spanish form rejects an invalid email",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 350
+        },
+        {
+          "id": "en-remote-requires-timezone",
+          "title": "Remote applications require a timezone",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 334
+        },
+        {
+          "id": "es-onsite-requires-office",
+          "title": "On-site Spanish applications require an office",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 335
+        },
+        {
+          "id": "en-double-submit",
+          "title": "Double-clicking submit records a single application",
+          "locale": "en",
+          "status": "failed",
+          "durationMs": 2660,
+          "retryStatus": "passed",
+          "classification": "flake",
+          "rationale": "The test failed and then passed on the automatic retry without a source change. First error: page.getByTestId('confirmation-banner') was not visible Counted as a flake, not a product regression.",
+          "evidence": {
+            "passedOnRetry": true,
+            "target": "confirmation",
+            "locatorStrategy": "testid",
+            "locatorExpr": "page.getByTestId('confirmation-banner')",
+            "message": "page.getByTestId('confirmation-banner') was not visible",
+            "expectedText": "Application received",
+            "expectedSubmissions": 1,
+            "assertionReached": true,
+            "standIns": [],
+            "alerts": [],
+            "statusText": null,
+            "domExcerpt": [
+              "<img>",
+              "<button>English",
+              "<button>Español",
+              "<label>Full name",
+              "<input data-testid=\"field-name\">",
+              "<label>Email",
+              "<input data-testid=\"field-email\">",
+              "<label>Phone",
+              "<input data-testid=\"field-phone\">",
+              "<label>Role",
+              "<select data-testid=\"field-role\">Select…QA EngineerProduct DesignerProducer",
+              "<input data-testid=\"work-mode-remote\">",
+              "<label>Remote",
+              "<input data-testid=\"work-mode-onsite\">",
+              "<label>On-site",
+              "<label>Timezone",
+              "<select data-testid=\"field-timezone\">Select…HawaiiMexico CityMadrid",
+              "<label>Portfolio review",
+              "<select data-testid=\"field-slot\">Select…Tue 10:00Wed 14:00Thu 16:00",
+              "<label>Notes",
+              "<textarea data-testid=\"field-notes\">",
+              "<button data-testid=\"submit-application\">Submit application"
+            ],
+            "submissionCount": 1,
+            "trace": [
+              "goto http://127.0.0.1:4173/?lang=en&bugs=flake&attempt=1",
+              "fill Full name",
+              "fill Email",
+              "fill Phone",
+              "select Role=producer",
+              "check Remote",
+              "select Timezone=Pacific/Honolulu",
+              "select Portfolio review=thu-16",
+              "click page.getByTestId('submit-application') x2",
+              "confirmation assertion"
+            ]
+          }
+        },
+        {
+          "id": "a11y-en",
+          "title": "English application form has no serious accessibility violations",
+          "locale": "en",
+          "status": "passed",
+          "durationMs": 351
+        },
+        {
+          "id": "a11y-es",
+          "title": "Spanish application form has no serious accessibility violations",
+          "locale": "es",
+          "status": "passed",
+          "durationMs": 373
+        }
+      ],
+      "repairs": [],
+      "detected": false,
+      "repairAccurate": false,
+      "finalStatus": "failed"
+    }
+  ],
+  "scoreboard": {
+    "detection": {
+      "count": 4,
+      "total": 4,
+      "rate": 1
+    },
+    "falsePositives": {
+      "count": 0,
+      "total": 26,
+      "rate": 0
+    },
+    "flakes": {
+      "count": 3,
+      "total": 72,
+      "rate": 0.041666666666666664
+    },
+    "repair": {
+      "count": 2,
+      "total": 2,
+      "rate": 1
+    },
+    "unsafeRepairs": {
+      "count": 2,
+      "total": 2,
+      "rate": 1
+    },
+    "baselinePassed": 9,
+    "baselineTotal": 9
+  },
+  "coverage": {
+    "en": {
+      "total": 5,
+      "baselinePassed": 5
+    },
+    "es": {
+      "total": 4,
+      "baselinePassed": 4
+    }
+  },
+  "generatedTestExcerpt": "// Generated by TestForge from criteria/job-application.yaml.\n// Locator repairs may change getBy* calls only. Expected outcomes are frozen.\nimport { expect, test, type Page } from '@playwright/test';\nimport AxeBuilder from '@axe-core/playwright';\n\nconst baseURL = process.env.TESTFORGE_BASE_URL ?? 'http://127.0.0.1:4173';\n\nfunction openUrl(locale: 'en' | 'es') {\n  const url = new URL(baseURL);\n  url.searchParams.set('lang', locale);\n  if (process.env.TESTFORGE_BUGS) url.searchParams.set('bugs', process.env.TESTFORGE_BUGS);\n  if (process.env.TESTFORGE_ATTEMPT) url.searchParams.set('attempt', process.env.TESTFORGE_ATTEMPT);\n  return url.toString();\n}\n\nasync function submissionCount(page: Page) {\n  const response = await page.request.get(new URL('/api/submissions', baseURL).toString());\n  const body = (await response.json()) as unknown[];\n  return body.length;\n}\n\ntest.beforeEach(async ({ request }) => {\n  const response = await request.delete(new URL('/api/submissions', baseURL).toString());\n  expect(response.ok()).toBeTruthy();\n});\n\ntest('English applicant submits a complete remote application', async ({ page }) => {\n  // case:en-happy-path\n  const locale = 'en' as const;\n  await page.goto(openUrl(locale));\n  await page.getByLabel('Full name', { exact: true }).fill('Jordan Lee');\n  await page.getByLabel('Email', { exact: true }).fill('jordan.lee@northline.dev');\n  await page.getByLabel('Phone', { exact: true }).fill('+1 415 555 0148');\n  await page.getByLabel('Role', { exact: true }).selectOption('qa');\n  await page.getByRole('radio', { name: 'Remote', exact: true }).check();\n  await page.getByLabel('Timezone', { exact: true }).selectOption('America/Mexico_City');\n  await page.getByLabel('Portfolio review', { exact: true }).selectOption('tue-10');\n  await page.getByTestId('submit-application').click();\n  await expect(page.getByTestId('confirmation-banner')).toContainText('Application received');\n  await expect.poll(async () => submissionCount(page)).toBe(1);\n});\n\ntest('Spanish applicant with a .es email submits an on-site application', async ({ page }) => {\n  // case:es-happy-path\n  const locale = 'es' as const;\n  await page.goto(openUrl(locale));\n  await page.getByLabel('Nombre completo', { exact: true }).fill('Sofía Reyes');\n  await page.getByLabel('Correo electrónico', { exact: true }).fill('sofia.reyes@correo.es');",
+  "formulas": {
+    "detection": "Seeded product bugs where a test that passed on the baseline fails and is classified as a regression, divided by the number of seeded product bugs.",
+    "falsePositives": "Baseline failures, plus UI-change or flake failures that were classified as product regressions, divided by baseline tests plus those UI-change and flake failures.",
+    "flakes": "Tests classified as flakes divided by test executions across every scenario. One execution is one test in one scenario, after the single retry.",
+    "repair": "Held-out UI changes where the first run is locator drift, every diff is accepted by the locator-only policy, the repaired suite passes in-process, and the repaired Playwright file passes.",
+    "unsafe": "Crafted unsafe repairs (an assertion edit and an application edit) rejected by the repair gate, divided by the number of unsafe repairs tried."
+  }
+}

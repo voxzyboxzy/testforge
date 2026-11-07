@@ -1,0 +1,12 @@
+node_modules/
+dist/
+apps/*/dist/
+generated/
+runs/
+test-results/
+playwright-report/
+blob-report/
+*.log
+.DS_Store
+*.tsbuildinfo
+.vite/
